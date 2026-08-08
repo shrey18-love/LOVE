@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Love Story</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #fff5f7;
+      font-family: 'Lora', serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Soft petal background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, #fde8f0 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, #fce4ec 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, #fff0f5 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Hero Section ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+
+    .hero-label {
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c8768a;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      color: #3d1a26;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: #b5445a;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 32px auto;
+      max-width: 400px;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e8a0b0, transparent);
+    }
+    .divider-rose { font-size: 20px; }
+
+    /* ── Story Text ── */
+    .story {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .story-chapter {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(220,140,160,0.2);
+      border-radius: 20px;
+      padding: 40px 48px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .chapter-number {
+      position: absolute;
+      top: -14px;
+      left: 40px;
+      background: #b5445a;
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+
+    .story-chapter h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #3d1a26;
+      margin-bottom: 16px;
+    }
+
+    .story-chapter p {
+      font-size: 1.05rem;
+      color: #5a3040;
+      line-height: 1.85;
+    }
+
+    .story-chapter p + p { margin-top: 14px; }
+
+    /* ── Floating Emojis ── */
+    .emoji-float {
+      position: fixed;
+      font-size: 2.2rem;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.18s ease, filter 0.18s ease;
+      filter: drop-shadow(0 4px 12px rgba(180,60,90,0.25));
+      z-index: 100;
+      animation-name: floatY;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+
+    .emoji-float:hover {
+      transform: scale(1.35) rotate(-6deg) !important;
+      filter: drop-shadow(0 8px 20px rgba(180,60,90,0.5));
+    }
+
+    @keyframes floatY {
+      from { transform: translateY(0px); }
+      to   { transform: translateY(-18px); }
+    }
+
+    /* Tooltip on hover */
+    .emoji-float::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #3d1a26;
+      color: #fff;
+      font-family: 'Lora', serif;
+      font-size: 12px;
+      white-space: nowrap;
+      padding: 4px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .emoji-float:hover::after { opacity: 1; }
+
+    /* ── Footer ── */
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 32px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #c8768a;
+      font-size: 1.05rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <p class="hero-label">A Story Worth Telling</p>
+    <h1>The Beginning of<br/><em>Our Forever</em></h1>
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-rose">🌹</span>
+      <span class="divider-line"></span>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="story">
+    <div class="story-chapter">
+      <span class="chapter-number">Where It All Started</span>
+      <h2>I Really Felt Love</h2>
+      <p>I was so young at that time, not knowing if it was love or attraction. I just knew that it was another way of getting myself a blush. 😊❤️</p>
+      <p>Playing with you, talking with you, seeking your attention, somehow it felt so special to my heart. 💕✨</p>
+      <p>If I had a chance to meet that teacher who unwantedly made me sit beside you, I would say a big, big thanks to him. 🙏😊 That changed my life afterward. ❤️🌸</p>
+      <p>Want to feel that moments? Just click the emojis floating around. ✨💖</p>
+    </div>
+
+    <a class="go-back" href="ourstory.html">← &nbsp; Go Back</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    "And so our story began… 💕"
+  </footer>
+
+  <!-- Floating Emoji Links -->
+  <!-- Each emoji is an <a> tag with href="" — fill in your links! -->
+
+  <a class="emoji-float" href="first-moment.html" data-tip="First momemt 💕"
+     style="left:13%; top:32%; animation-duration:3.2s; animation-delay:0s;">💌</a>
+
+  <a class="emoji-float" href="sweet-memory.html" data-tip="Teaching the use of whitner 🤗"
+     style="left:5%; top:47%; animation-duration:4s; animation-delay:0.3s;">🌙</a>
+
+  <a class="emoji-float" href="rubber-clay.html" data-tip="Making clay rubbur 🎭"
+     style="left:14%; top:62%; animation-duration:3.6s; animation-delay:0.8s;">🎵</a>
+
+  <a class="emoji-float" href="drawing-you-on-the-bench.html" data-tip="Drawing you on bench ✍️"
+     style="left:6%; top:76%; animation-duration:3.1s; animation-delay:1s;">📷</a>
+
+  <a class="emoji-float" href="capturing-your-flower-amber.html" data-tip="Keeping the flower you touch 🌹"
+     style="right:13%; top:28%; animation-duration:2.8s; animation-delay:0.4s;">💍</a>
+
+  <a class="emoji-float" href="chatting-with-you.html" data-tip="Chatting with you 🫠"
+     style="right:5%; top:44%; animation-duration:3.4s; animation-delay:0.7s;">⭐</a>
+
+  <a class="emoji-float" href="1.html" data-tip="Watching you everytime"
+     style="right:14%; top:60%; animation-duration:2.5s; animation-delay:0.2s;">🌸</a>
+
+  <a class="emoji-float" href="clicking-her-photo.html" data-tip="Try clicking her photo 🥹"
+     style="right:6%; top:76%; animation-duration:2.9s; animation-delay:0.6s;">💖</a>
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>your kitty</title>
+<style>
+  :root{
+    --bg: #f2f1ee;
+    --ink: #1f1d1b;
+    --card-white: #ffffff;
+    --card-cream: #e8ddce;
+    --card-clay: #c9863b;
+    --card-clay-text: #fff6ea;
+    --sky-top: #bfe3f5;
+    --sky-bottom: #eaf7ee;
+    --hill: #7bb662;
+    --hill-dark: #5e9a49;
+    --shadow: 0 18px 40px -18px rgba(31,29,27,0.35);
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color:var(--ink);
+    padding: 48px 5vw;
+    position: relative;
+    overflow-x:hidden;
+  }
+
+  .layout{
+    max-width: 1180px;
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 56px;
+    align-items:start;
+  }
+
+  .title{
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 22px 0;
+    display:flex;
+    align-items:flex-end;
+    gap: 10px;
+  }
+  .title .paw{ font-size: 0.55em; transform: translateY(-6px); }
+
+  .hero-photo{
+    position:relative;
+    border-radius: 22px;
+    overflow:hidden;
+    box-shadow: var(--shadow);
+    background:#9a9a92;
+    aspect-ratio: 453/454;
+  }
+  .hero-photo img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .hero-caption{
+    position:absolute;
+    top: 22px; left:0; right:0;
+    text-align:center;
+    color:#fff;
+    font-weight:700;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  }
+
+  .right-col{ display:flex; flex-direction:column; gap: 26px; margin-top: 120px; }
+
+  .facts{
+    border-radius: 18px;
+    overflow:hidden;
+    box-shadow: var(--shadow);
+  }
+  .fact-row{
+    display:grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 18px;
+    padding: 20px 26px;
+  }
+  .fact-row:nth-child(1){ background:var(--card-white); }
+  .fact-row:nth-child(2){ background:var(--card-cream); }
+  .fact-row:nth-child(3){ background:var(--card-clay); color:var(--card-clay-text); }
+  .fact-label{ font-weight:800; font-size:1.02rem; }
+  .fact-text{ font-size:0.92rem; line-height:1.42; opacity:0.9; }
+
+  .bottom-row{
+    display:grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 20px;
+    align-items:start;
+  }
+
+  .bottom-card{ display:flex; flex-direction:column; gap:10px; }
+  .bottom-card.cat-card{ align-items:center; }
+  .bottom-photo{
+    border-radius: 16px;
+    overflow:hidden;
+    box-shadow: var(--shadow);
+    aspect-ratio: 295/139;
+    background:#333;
+  }
+  .bottom-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .bottom-label{ font-weight:700; text-align:center; font-size:0.98rem; }
+
+  .cat-btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    background: transparent;
+    padding:0;
+    width: 100%;
+    height: 150px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    transition: transform 0.15s ease;
+  }
+  .cat-btn:active{ transform: scale(0.9); }
+  .cat-btn:focus-visible{ outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 12px; }
+
+  .cat-face-img{
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,0.18));
+    transition: transform 0.15s ease;
+  }
+  .cat-btn:hover .cat-face-img{ transform: scale(1.05); }
+  .cat-btn .prompt{
+    font-size:0.72rem;
+    font-weight:700;
+    color: #9a7a54;
+    letter-spacing:0.03em;
+  }
+
+  /* wandering cat */
+  #wander-cat{
+    position:fixed;
+    left:0; top:0;
+    font-size: 34px;
+    z-index: 999;
+    pointer-events:none;
+    transform: translate(-50%,-50%) scaleX(1);
+    filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25));
+    transition: transform 0.12s ease;
+  }
+
+  .speed-tag{
+    position:fixed;
+    bottom: 18px;
+    right: 18px;
+    background: var(--ink);
+    color:#fff;
+    font-size:0.72rem;
+    font-weight:700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    opacity:0;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 1000;
+    letter-spacing:0.02em;
+  }
+  .speed-tag.show{ opacity:1; transform:translateY(0); }
+
+  .next-btn{
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--card-clay);
+    color: var(--card-clay-text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    box-shadow: var(--shadow);
+    z-index: 900;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .next-btn:hover{ transform: scale(1.08); background:#b87730; }
+  .next-btn:active{ transform: scale(0.94); }
+  .next-btn:focus-visible{ outline: 3px solid var(--ink); outline-offset: 3px; }
+  .next-btn-arrow{
+    font-size: 1.5rem;
+    line-height: 1;
+    transform: translateX(1px);
+  }
+
+  @media (max-width: 860px){
+    .layout{ grid-template-columns: 1fr; }
+    .bottom-row{ grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #wander-cat{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="layout">
+    <div>
+      <h1 class="title">your<br>kitty <span class="paw">🐈</span></h1>
+      <div class="hero-photo">
+        <div class="hero-caption"></div>
+        <img src="main_photo.png" alt="A cat resting its head against a sandal">
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="facts">
+        <div class="fact-row">
+          <div class="fact-label">nick name</div>
+          <div class="fact-text">first time you called me as a kitty it feel special and cute</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">kitty in your hand</div>
+          <div class="fact-text">that first snap of you holding the kitty is my fav at there time it feels like i am in your hand</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">its always around</div>
+          <div class="fact-text">kitties are always with you and aside you then i feel jealoused</div>
+        </div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="bottom-card">
+          <div class="bottom-photo">
+            <img src="you_and_me.png" alt="A kitten resting on someone's chest">
+          </div>
+          <div class="bottom-label">you and me</div>
+        </div>
+
+        <div class="bottom-card cat-card">
+          <button class="cat-btn" id="chase-btn" aria-label="Push to speed up the wandering cat">
+            <img class="cat-face-img" src="cat_face.png" alt="Cute cat face">
+            <span class="prompt">push me</span>
+          </button>
+          <div class="bottom-label">chase the cat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="college_updown.html" class="next-btn" aria-label="Next page">
+    <span class="next-btn-arrow">&#8594;</span>
+  </a>
+
+  <audio id="meow-sound" src="meow.mp3" preload="auto"></audio>
+  <div id="wander-cat">🐈</div>
+  <div class="speed-tag" id="speed-tag">speed x1.0</div>
+
+<script>
+(function(){
+  const cat = document.getElementById('wander-cat');
+  const btn = document.getElementById('chase-btn');
+  const speedTag = document.getElementById('speed-tag');
+
+  let x = window.innerWidth * 0.5;
+  let y = window.innerHeight * 0.5;
+  let targetX = x, targetY = y;
+  let baseSpeed = 1.4;      // px per frame at speed multiplier 1
+  let multiplier = 1;
+  const maxMultiplier = 14;
+  let lastFacing = 1;
+  let decayTimer = null;
+
+  function pickNewTarget(){
+    const margin = 60;
+    targetX = margin + Math.random() * (window.innerWidth - margin*2);
+    targetY = margin + Math.random() * (window.innerHeight - margin*2);
+  }
+  pickNewTarget();
+
+  function tick(){
+    const dx = targetX - x;
+    const dy = targetY - y;
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < 12){
+      pickNewTarget();
+    } else {
+      const speed = baseSpeed * multiplier;
+      x += (dx / dist) * speed;
+      y += (dy / dist) * speed;
+      if (Math.abs(dx) > 2){
+        lastFacing = dx < 0 ? -1 : 1;
+      }
+    }
+
+    cat.style.left = x + 'px';
+    cat.style.top = y + 'px';
+    cat.style.transform = `translate(-50%,-50%) scaleX(${lastFacing})`;
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function updateSpeedTag(){
+    speedTag.textContent = 'speed x' + multiplier.toFixed(1);
+    speedTag.classList.add('show');
+    clearTimeout(decayTimer);
+    decayTimer = setTimeout(()=>{
+      speedTag.classList.remove('show');
+    }, 1400);
+  }
+
+  // --- real meow sound clip ---
+  const meowSound = document.getElementById('meow-sound');
+  function playMeow(){
+    try{
+      meowSound.currentTime = 0;
+      meowSound.play();
+    } catch(e){ /* audio not available, fail silently */ }
+  }
+
+  let cooldown = null;
+  btn.addEventListener('click', () => {
+    multiplier = Math.min(maxMultiplier, multiplier + 1.1);
+    pickNewTarget();
+    updateSpeedTag();
+    playMeow();
+
+    // gentle decay back toward calm if left untouched
+    clearTimeout(cooldown);
+    cooldown = setTimeout(() => {
+      const decay = setInterval(() => {
+        multiplier = Math.max(1, multiplier - 0.4);
+        if (multiplier <= 1){ clearInterval(decay); }
+      }, 400);
+    }, 2500);
+  });
+
+  window.addEventListener('resize', () => {
+    x = Math.min(x, window.innerWidth - 40);
+    y = Math.min(y, window.innerHeight - 40);
+  });
+})();
+</script>
+
+</body>
+</html>

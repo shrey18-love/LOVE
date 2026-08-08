@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Watching You From Apart 👀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:          #04080f;
+      --navy:        #0a1628;
+      --navy-mid:    #142240;
+      --silver-glow: #8ab0d4;
+      --silver:      #b8cfea;
+      --cream:       #ddeaf7;
+      --muted:       #7a9ab8;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      min-height:100vh;
+      background: var(--bg);
+      font-family: \'Cormorant Garamond\', serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content:\'\';
+      position:fixed; inset:0;
+      background:
+        radial-gradient(ellipse at 30% 20%,  #081428 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%,  #060f1e 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, #0a1830 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 80%,  #050c18 0%, transparent 45%);
+      pointer-events:none; z-index:0;
+    }
+
+    /* Stars */
+    .star {
+      position:fixed;
+      width:2px; height:2px;
+      background:#b8cfea;
+      border-radius:50%;
+      pointer-events:none; z-index:0;
+      animation: twinkle ease-in-out infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity:0.1; transform:scale(1); }
+      to   { opacity:0.8; transform:scale(1.4); }
+    }
+
+    /* particles */
+    .p {
+      position:fixed; border-radius:50%;
+      pointer-events:none; z-index:0; opacity:0;
+      animation: drift linear infinite;
+    }
+    @keyframes drift {
+      0%   { transform:translateY(100vh) scale(0); opacity:0; }
+      10%  { opacity:0.7; }
+      90%  { opacity:0.3; }
+      100% { transform:translateY(-5vh) scale(1.2); opacity:0; }
+    }
+
+    .page {
+      position:relative; z-index:1;
+      max-width:860px;
+      margin:0 auto;
+      padding:3vh 3vw 5vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:2vh;
+    }
+
+    /* Go Back */
+    .go-back {
+      align-self:flex-start;
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      text-decoration:none;
+      font-family:\'Cinzel\', serif;
+      font-size:0.72rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:rgba(184,207,234,0.7);
+      border:1px solid rgba(138,176,212,0.3);
+      border-radius:30px;
+      padding:7px 18px;
+      background:rgba(10,22,40,0.2);
+      backdrop-filter:blur(6px);
+      transition:all 0.25s ease;
+      animation:fadeUp 1s ease both;
+    }
+    .go-back:hover {
+      color:var(--cream);
+      border-color:rgba(138,176,212,0.75);
+      background:rgba(10,22,40,0.45);
+      box-shadow:0 0 22px rgba(138,176,212,0.22);
+    }
+
+    /* Heading */
+    .heading-block {
+      text-align:center;
+      animation:fadeUp 1.2s ease 0.1s both;
+    }
+    .sup-label {
+      font-family:\'Cinzel\', serif;
+      font-size:clamp(9px,0.85vw,11px);
+      letter-spacing:0.36em;
+      text-transform:uppercase;
+      color:var(--silver);
+      opacity:0.55;
+      margin-bottom:8px;
+    }
+    h1 {
+      font-weight:300; font-style:italic;
+      font-size:clamp(1.8rem,3.5vw,3.2rem);
+      color:var(--cream);
+      text-shadow:0 0 55px rgba(138,176,212,0.45), 0 0 120px rgba(10,22,40,0.4);
+      line-height:1.2;
+    }
+    h1 span {
+      font-weight:600; font-style:normal;
+      color:var(--silver-glow);
+      text-shadow:0 0 30px rgba(138,176,212,0.9), 0 0 75px rgba(138,176,212,0.38);
+    }
+
+    .emoji-row {
+      display:flex; gap:12px; justify-content:center;
+      font-size:clamp(1rem,1.4vw,1.3rem);
+      margin-top:6px;
+    }
+    .emoji-row span { animation:pulse 2.6s ease-in-out infinite alternate; }
+    .emoji-row span:nth-child(2){animation-delay:.3s;}
+    .emoji-row span:nth-child(3){animation-delay:.6s;}
+    .emoji-row span:nth-child(4){animation-delay:.9s;}
+    .emoji-row span:nth-child(5){animation-delay:1.2s;}
+
+    /* Card */
+    .card {
+      width:100%;
+      background:linear-gradient(145deg, #080f1e 0%, #050a14 50%, #070d1a 100%);
+      border:1px solid rgba(138,176,212,0.22);
+      border-radius:18px;
+      padding:10px;
+      position:relative;
+      box-shadow:
+        0 0 0 1px rgba(138,176,212,0.06),
+        0 0 50px rgba(10,22,40,0.65),
+        0 0 100px rgba(10,22,40,0.25),
+        inset 0 1px 0 rgba(184,207,234,0.05);
+      animation:fadeUp 1.4s ease 0.25s both;
+    }
+    .card::before {
+      content:\'\';
+      position:absolute; inset:-1px; border-radius:19px;
+      background:linear-gradient(135deg,
+        rgba(138,176,212,0.45) 0%,
+        rgba(10,22,40,0.12)    35%,
+        rgba(20,34,64,0.38)    65%,
+        rgba(138,176,212,0.45) 100%);
+      z-index:-1;
+      animation:borderGlow 5s linear infinite;
+    }
+    @keyframes borderGlow { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    .frame-wrap { position:relative; padding:10px 10px 0; }
+
+    .fc {
+      position:absolute;
+      font-size:clamp(1rem,1.3vw,1.3rem);
+      animation:pulse 3s ease-in-out infinite alternate;
+      z-index:3; line-height:1;
+    }
+    .fc.tl { top:2px;  left:2px;  animation-delay:0s;   }
+    .fc.tr { top:2px;  right:2px; animation-delay:.5s;  }
+    .fc.bl { bottom:6px; left:2px;  animation-delay:1s; }
+    .fc.br { bottom:6px; right:2px; animation-delay:1.5s; }
+
+    .ornament-border {
+      border:2px solid rgba(138,176,212,0.4);
+      border-radius:12px;
+      padding:7px;
+      background:linear-gradient(135deg, #080f1e 0%, #040810 100%);
+      box-shadow:inset 0 0 32px rgba(10,22,40,0.3), 0 0 24px rgba(10,22,40,0.2);
+      position:relative; overflow:hidden;
+    }
+    .ornament-border::before,
+    .ornament-border::after {
+      content:\'\'; position:absolute;
+      width:22px; height:22px;
+      border-color:rgba(138,176,212,0.58); border-style:solid;
+    }
+    .ornament-border::before { top:5px; left:5px; border-width:2px 0 0 2px; border-radius:3px 0 0 0; }
+    .ornament-border::after  { bottom:5px; right:5px; border-width:0 2px 2px 0; border-radius:0 0 3px 0; }
+
+    .photo {
+      width:100%;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      object-position: center 30%;
+      border-radius:7px;
+      display:block;
+      filter: brightness(0.95) contrast(1.05);
+    }
+
+    .ribbon {
+      text-align:center;
+      padding:8px 8px 4px;
+      font-family:\'Cinzel\', serif;
+      font-size:clamp(0.58rem,0.7vw,0.75rem);
+      letter-spacing:0.2em;
+      color:rgba(138,176,212,0.48);
+      text-transform:uppercase;
+    }
+
+    /* Caption */
+    .caption {
+      width:100%;
+      background:rgba(138,176,212,0.03);
+      border:1px solid rgba(138,176,212,0.11);
+      border-radius:16px;
+      padding:clamp(20px,2.8vw,32px) clamp(22px,3.2vw,40px);
+      animation:fadeUp 1.6s ease 0.4s both;
+      backdrop-filter:blur(5px);
+      text-align:center;
+      position:relative;
+    }
+    .caption::before {
+      position:absolute; top:-14px; left:26px;
+      font-size:5.5rem; line-height:1;
+      color:rgba(138,176,212,0.1);
+      font-family:\'Cormorant Garamond\', serif;
+      pointer-events:none;
+    }
+
+    .caption p {
+      font-size:clamp(0.95rem,1.45vw,1.18rem);
+      color:rgba(221,234,247,0.78);
+      line-height:2.2;
+      font-style:italic;
+    }
+    /* divider between short + long text */
+    .caption .divider {
+      display:block;
+      margin:14px auto;
+      width:60px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(138,176,212,0.35), transparent);
+    }
+
+    /* Bottom emojis */
+    .bottom-emojis {
+      display:flex; gap:18px;
+      font-size:clamp(0.9rem,1.3vw,1.2rem);
+      animation:fadeUp 1.8s ease 0.6s both;
+      padding-bottom:1vh;
+    }
+    .bottom-emojis span { animation:floatUD 3s ease-in-out infinite alternate; }
+    .bottom-emojis span:nth-child(1){animation-delay:0s;}
+    .bottom-emojis span:nth-child(2){animation-delay:.4s;}
+    .bottom-emojis span:nth-child(3){animation-delay:.8s;}
+    .bottom-emojis span:nth-child(4){animation-delay:1.2s;}
+    .bottom-emojis span:nth-child(5){animation-delay:1.6s;}
+
+    @keyframes floatUD { from{transform:translateY(0)} to{transform:translateY(-7px)} }
+    @keyframes pulse   { from{transform:scale(1);filter:brightness(1)} to{transform:scale(1.2);filter:brightness(1.3)} }
+    @keyframes fadeUp  { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+
+  <!-- twinkling stars -->
+  <div class="star" style="top:8%;left:15%;animation-duration:3.2s;animation-delay:0s;"></div>
+  <div class="star" style="top:14%;left:72%;animation-duration:4.1s;animation-delay:1s;width:3px;height:3px;"></div>
+  <div class="star" style="top:22%;left:42%;animation-duration:2.8s;animation-delay:0.5s;"></div>
+  <div class="star" style="top:5%;left:88%;animation-duration:3.6s;animation-delay:1.8s;"></div>
+  <div class="star" style="top:18%;left:28%;animation-duration:4.5s;animation-delay:2.2s;"></div>
+  <div class="star" style="top:9%;left:56%;animation-duration:3s;animation-delay:0.8s;width:3px;height:3px;"></div>
+  <div class="star" style="top:25%;left:91%;animation-duration:3.8s;animation-delay:1.4s;"></div>
+  <div class="star" style="top:3%;left:35%;animation-duration:2.5s;animation-delay:0.3s;"></div>
+
+  <!-- floating particles -->
+  <div class="p" style="width:2px;height:2px;background:#8ab0d4;left:12%;animation-duration:11s;animation-delay:0s;"></div>
+  <div class="p" style="width:3px;height:3px;background:#b8cfea;left:33%;animation-duration:14s;animation-delay:2s;"></div>
+  <div class="p" style="width:2px;height:2px;background:#142240;left:55%;animation-duration:9s;animation-delay:1s;"></div>
+  <div class="p" style="width:3px;height:3px;background:#8ab0d4;left:74%;animation-duration:12s;animation-delay:3s;"></div>
+  <div class="p" style="width:2px;height:2px;background:#b8cfea;left:88%;animation-duration:10s;animation-delay:0.5s;"></div>
+  <div class="p" style="width:2px;height:2px;background:#8ab0d4;left:22%;animation-duration:15s;animation-delay:4s;"></div>
+  <div class="p" style="width:3px;height:3px;background:#b8cfea;left:64%;animation-duration:11s;animation-delay:2.5s;"></div>
+  <div class="p" style="width:2px;height:2px;background:#8ab0d4;left:46%;animation-duration:13s;animation-delay:1.5s;"></div>
+
+  <div class="page">
+
+    <!-- Go Back -->
+    <a class="go-back" href="love-story1.html">← &nbsp; Go Back</a>
+
+    <!-- Heading -->
+    <div class="heading-block">
+      <p class="sup-label">✦ A Quiet Little Memory ✦</p>
+      <h1>Watching You<br/><span>From Apart</span> 👀</h1>
+      <div class="emoji-row">
+          <!-- Bottom emojis -->
+        <span>🌙</span><span>🤍</span><span>💫</span><span>🤍</span><span>🌙</span>
+      </div>
+    </div>
+
+    <!-- Photo Card -->
+    <div class="card">
+      <div class="frame-wrap">
+        <span class="fc tl">✨</span>
+        <span class="fc tr">✨</span>
+        <span class="fc bl">💫</span>
+        <span class="fc br">💫</span>
+        <div class="ornament-border">
+          <img class="photo" src="image5.png" alt="Watching you from apart"/>
+        </div>
+        <div class="ribbon">✦ &nbsp; Watching You From Apart &nbsp; ✦</div>
+      </div>
+    </div>
+
+    <!-- Caption -->
+    <div class="caption">
+      <p>Watching you from apart…. 🫠👀 admiring every beauty of you…. 💕 seeing every small big moments of you…. 🥹<span class="divider"></span>"I wanted to freeze that moment forever… 🕰️✨ but God created time in a way that no one can control it — not even me. Perhaps He knew that if I had the power to stop time, I would stay lost in your beauty forever. The beauty you carry is so overwhelming, so heavy on my heart, that I wouldn\'t be able to bear it endlessly. Maybe that\'s why God made time keep moving — so moments can be cherished. 🫠🫂💕"</p>
+    </div>
+
+    <div class="bottom-emojis">
+      <span>🌙</span><span>🕊️</span><span>💫</span><span>🕊️</span><span>🌙</span>
+    </div>
+
+  </div>
+
+</body>
+</html>
+
